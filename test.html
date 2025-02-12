@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salida Manual</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .entrada {
+          
+            height: 40px;
+            line-height: 40px;
+            border: none;
+            border-radius: 5px;
+            margin: auto;
+            margin-top: 20px;
+            margin-left: 7%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            text-align: left;
+            padding-left: 30px;
+            font-size: 16px;
+            background-color: white;
+            cursor: pointer;
+        }
+        .btn {
+            width: 90%;
+            height: 45px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Registrar Salida Manual</h2>
+
+    <select id="tipoSalida" class="entrada">
+        <option value="" disabled selected>Seleccione el tipo de salida</option>
+        <option value="Parking">Parking</option>
+        <option value="Andenes">Andenes</option>
+    </select>
+
+    <input type="text" id="patente" class="entrada" placeholder="Ingrese la patente">
+
+    <button class="btn" onclick="registrarSalida()">Registrar Salida</button>
+</div>
+
+<script>
+    function registrarSalida() {
+        const tipoSalida = document.getElementById("tipoSalida").value;
+        const patente = document.getElementById("patente").value.trim();
+
+        if (!tipoSalida || !patente) {
+            alert("Por favor, complete todos los campos.");
+            return;
+        }
+
+        // Enviar datos al servidor (ajustar URL según corresponda)
+        fetch("salida.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: `tipoSalida=${tipoSalida}&patente=${encodeURIComponent(patente)}`
+        })
+        .then(response => response.json())
+        .then(data => alert(data.message))
+        .catch(error => console.error("Error:", error));
+    }
+</script>
+
+</body>
+</html>
